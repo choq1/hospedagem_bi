@@ -6,3 +6,4 @@ portaldb
 *.db
 .DS_Store
 *.log
+seed-usuarios.js
