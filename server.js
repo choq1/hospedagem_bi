@@ -112,6 +112,63 @@ app.post('/api/atualizar-usuario', verificarToken, async (req, res) => {
     }
 });
 
+// ROTA: Deletar usuário
+app.delete('/api/deletar-usuario/:email', verificarToken, async (req, res) => {
+    const { email } = req.params;
+
+    try {
+        // Verificar se o usuário existe
+        const { data: usuario, error: erroVerificacao } = await supabase
+            .from('usuarios')
+            .select('id, nome')
+            .eq('email', email)
+            .maybeSingle();
+
+        if (!usuario) {
+            return res.status(404).json({ erro: "Usuário não encontrado" });
+        }
+
+        // Deletar auditoria do usuário primeiro (foreign key)
+        await supabase
+            .from('auditoria')
+            .delete()
+            .eq('usuario_id', usuario.id);
+
+        // Deletar usuário
+        const { error: erroDeletar } = await supabase
+            .from('usuarios')
+            .delete()
+            .eq('id', usuario.id);
+
+        if (erroDeletar) throw erroDeletar;
+        
+        res.json({ 
+            mensagem: `Usuário ${usuario.nome} (${email}) deletado com sucesso!`
+        });
+    } catch (erro) {
+        console.error('Erro ao deletar usuário:', erro);
+        res.status(500).json({ erro: "Erro ao deletar usuário" });
+    }
+});
+
+// ROTA: Desativar usuário (alternativa mais segura que deletar)
+app.post('/api/desativar-usuario', verificarToken, async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        const { error } = await supabase
+            .from('usuarios')
+            .update({ ativo: 0 })
+            .eq('email', email);
+
+        if (error) throw error;
+        res.json({ mensagem: "Usuário desativado com sucesso!" });
+    } catch (erro) {
+        console.error('Erro ao desativar usuário:', erro);
+        res.status(500).json({ erro: "Erro ao desativar usuário" });
+    }
+});
+
 // ======================== POWER BI ========================
 
 // Configuração do Power BI
