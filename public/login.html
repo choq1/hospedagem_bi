@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Portal BI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="login-page">
+    <div class="login-wrapper">
+        <div class="login-header-top">
+            <img src="logocmntrns.png" alt="Logo" class="login-logo">
+            <h1>Portal BI</h1>
+            <p>CAMINHO VEÍCULOS</p>
+        </div>
+
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-content">
+                    <h2>Acesse sua conta</h2>
+                    <p class="login-subtitle">Digite seu e-mail e senha para entrar no portal.</p>
+
+                    <form id="form-login">
+                        <div class="form-group">
+                            <label>E-mail</label>
+                            <input type="email" id="email" placeholder="seu@exemplo.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Senha</label>
+                            <input type="password" id="senha" placeholder="••••••••" required>
+                            <span class="toggle-password" onclick="togglePassword()"><img src="not-visible.png" alt="Esconder senha"></span>
+                        </div>
+
+                        <div class="login-options">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="manter-conectado">
+                                <span>Manter conectado</span>
+                            </label>
+                            <a href="https://wa.me/5517997839368?text=Olá,%20esqueci%20minha%20senha%20do%20Portal%20BI" target="_blank" class="forgot-password">Esqueci a senha</a>
+                        </div>
+
+                        <button type="submit" class="btn-login">Entrar</button>
+                    </form>
+
+                    <p class="login-footer">Ao entrar, você concorda com nossa política de uso.</p>
+
+                    <p class="dev-info">Desenvolvido por Gabriel Herculano - 2026</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="login.js"></script>
+</body>
+</html>

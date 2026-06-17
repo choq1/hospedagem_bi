@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendas - Portal BI</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .bi-container {
+            width: 100%;
+            height: calc(100vh - 120px);
+            border: none;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .bi-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .main-content {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo-container">
+                <img src="logo.png" alt="Logo" class="logo">
+            </div>
+
+            <div class="profile-card">
+                <div class="profile-avatar">GH</div>
+                <div class="profile-info">
+                    <h3 id="profile-name">Gabriel Herculano</h3>
+                    <p id="profile-cargo">ANALISTA DE DADOS</p>
+                    <p id="profile-filial">Centralizada</p>
+                </div>
+            </div>
+
+            <nav class="menu-links">
+                <a href="dashboard.html" class="menu-item">DASHBOARD</a>
+                <a href="vendas.html" class="menu-item active">VENDAS</a>
+                <a href="pos-vendas.html" class="menu-item">PÓS-VENDAS</a>
+                <a href="dre.html" class="menu-item">DRE</a>
+                <a href="admin.html" class="menu-item">ADMIN</a>
+            </nav>
+
+            <button class="logout-btn" onclick="logout()">SAIR</button>
+        </aside>
+
+        <main class="main-content">
+            <div class="top-bar">
+                <h1>VENDAS</h1>
+            </div>
+
+            <div class="bi-container">
+                <iframe 
+                    id="powerbi-iframe"
+                    src=""
+                    allowFullScreen="true">
+                </iframe>
+            </div>
+        </main>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        // Carrega o relatório do Power BI
+        document.addEventListener('DOMContentLoaded', () => {
+            const reportId = 'SEU_REPORT_ID_VENDAS'; // Você vai substituir isso
+            const groupId = 'SEU_GROUP_ID'; // Você vai substituir isso
+
+            const iframeUrl = `https://app.powerbi.com/reportEmbed?reportId=${reportId}&groupId=${groupId}&autoAuth=true&ctid=SEU_TENANT_ID`;
+
+            document.getElementById('powerbi-iframe').src = iframeUrl;
+        });
+
+        function logout() {
+            localStorage.removeItem('tokenSite');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

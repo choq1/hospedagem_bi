@@ -1,0 +1,522 @@
+:root {
+    --bg-dark: #000c1e;
+    --bg-sidebar: #011638;
+    --blue-accent: #0066ff;
+    --text-color: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-color);
+}
+
+.app-container {
+    display: flex;
+    height: 100vh;
+}   
+
+.sidebar {
+    width: 260px;
+    background-color: var(--bg-sidebar);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-right: 1px solid #1e2e4a;
+}
+
+.logo-area {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.logo-img {
+    max-width: 100%;    /* Impede que a imagem passe da largura da sidebar */
+    height: auto;       /* Mantém as proporções da imagem */
+    max-height: 120px;   /* Controla a altura máxima desejada para o logo */
+    object-fit: contain;
+}
+
+.logo-area h2 {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.profile-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 0 0 30px -10px;
+    width: 240px;
+    height: 240px;
+    padding: 40px 20px;
+    border: 2px solid #0066ff;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(0, 102, 255, 0.15), rgba(0, 20, 60, 0.4));
+    overflow: hidden;
+}
+
+.profile-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('logo_grupo-caminho-veiculos_6DWZv5.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(15px);
+    opacity: 0.50;
+    z-index: 1;
+}
+
+.profile-card > * {
+    position: relative;
+    z-index: 2;
+}
+
+.avatar {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, var(--blue-accent), #0099ff);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    font-weight: bold;
+    font-size: 24px;
+    box-shadow: 0 8px 25px rgba(0, 102, 255, 0.5);
+    border: 3px solid rgba(255, 255, 255, 0.2);
+}
+
+.profile-card h3 {
+    margin-bottom: 5px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.profile-card .filial {
+    font-size: 14px;
+    color: #bcd4f3;
+    margin-top: 5px;
+}
+
+.profile-card .cargo {
+    color: #e7e7e7;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+.menu-links {
+    flex: 1;
+    margin-bottom: 20px;
+}
+
+.menu-links a {
+    display: block;
+    color: #a0aec0;
+    padding: 12px 15px;
+    text-decoration: none;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 13px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 1px solid transparent;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.menu-links a:hover {
+    background-color: rgba(0, 102, 255, 0.2);
+    color: var(--blue-accent);
+    border-color: var(--blue-accent);
+    transform: translateX(5px);
+}
+
+.menu-links a.active {
+    background-color: var(--blue-accent);
+    color: white;
+    border-color: var(--blue-accent);
+    box-shadow: 0 4px 12px rgba(0, 102, 255, 0.4);
+}
+
+.sidebar-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#btn-logout {
+    padding: 12px 15px;
+    background: linear-gradient(135deg, #ff4444, #ff6666);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 13px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#btn-logout:hover {
+    background: linear-gradient(135deg, #cc0000, #ff4444);
+    box-shadow: 0 4px 12px rgba(255, 68, 68, 0.4);
+    transform: translateY(-2px);
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.top-bar {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #1e2e4a;
+}
+
+.top-bar h1 {
+    font-size: 28px;
+    color: var(--blue-accent);
+    font-weight: 700;
+}
+
+.bi-container {
+    flex: 1;
+    background-color: #0b1a30;
+    border-radius: 8px;
+    border: 1px solid #1e2e4a;
+    overflow: hidden;
+}
+
+iframe {
+    border: none !important;
+    width: 100%;
+    height: 100%;
+}
+
+
+/* ===== LOGIN PAGE ===== */
+.login-page {
+    background: linear-gradient(135deg, #000c1e 0%, #011638 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.login-wrapper {
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-header-top {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.login-logo {
+    width: 120px;
+    height: 60px;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 4px 12px rgba(0, 102, 255, 0.3));
+}
+
+.login-header-top h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+    margin-bottom: 5px;
+}
+
+.login-header-top p {
+    font-size: 13px;
+    color: #64b5f6;
+    margin: 0;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.login-container {
+    width: 100%;
+}
+
+.login-card {
+    background: linear-gradient(135deg, rgba(1, 22, 56, 0.8), rgba(0, 12, 30, 0.9));
+    border: 1px solid #1e2e4a;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+.login-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('logo_grupo-caminho-veiculos_6DWZv5.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(8px);
+    opacity: 0.15;
+    z-index: 1;
+}
+
+.login-content {
+    position: relative;
+    z-index: 2;
+}
+
+.login-content h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 10px 0;
+    text-align: center;
+}
+
+.login-subtitle {
+    font-size: 13px;
+    color: #e0e0e0;
+    text-align: center;
+    margin: 0 0 30px 0;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid #1e2e4a;
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.form-group input::placeholder {
+    color: #e0e0e0;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #0066ff;
+    background: rgba(0, 102, 255, 0.1);
+    box-shadow: 0 0 10px rgba(0, 102, 255, 0.2);
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 38px;
+    cursor: pointer;
+    color: #64b5f6;
+    font-size: 18px;
+    user-select: none;
+    transition: 0.3s;
+}
+
+.toggle-password:hover {
+    color: #0066ff;
+}
+
+.login-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    font-size: 13px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #a0aec0;
+    user-select: none;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    cursor: pointer;
+    accent-color: #0066ff;
+}
+
+.forgot-password {
+    color: #64b5f6;
+    text-decoration: none;
+    transition: 0.3s;
+    font-weight: 600;
+}
+
+.forgot-password:hover {
+    color: #0066ff;
+    text-decoration: underline;
+}
+
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #0066ff, #0099ff);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(0, 102, 255, 0.3);
+}
+
+.btn-login:hover {
+    background: linear-gradient(135deg, #0052cc, #0080ff);
+    box-shadow: 0 6px 20px rgba(0, 102, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+.btn-login:active {
+    transform: translateY(0);
+}
+
+.login-footer {
+    font-size: 12px;
+    color: #64b5f6;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 0;
+}
+
+.dev-info {
+    font-size: 11px;
+    color: #a0aec0;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.bi-container {
+    background: linear-gradient(135deg, rgba(1, 22, 56, 0.8), rgba(0, 12, 30, 0.9));
+    border: 1px solid #1e2e4a;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    margin-top: 30px;
+}
+
+#reportContainer {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* ===== ADMIN PAGE - OVERRIDE ===== */
+.usuarios-list {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)) !important;
+    gap: 25px !important;
+    width: 100% !important;
+}
+
+.usuario-card {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+    background: white !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    padding: 20px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+    transition: all 0.3s ease !important;
+}
+
+.usuario-card:hover {
+    box-shadow: 0 8px 16px rgba(0,0,0,0.12) !important;
+    transform: translateY(-4px) !important;
+}
+
+.usuario-info {
+    margin-bottom: 15px !important;
+    flex: 1 !important;
+}
+
+.usuario-actions {
+    display: flex !important;
+    gap: 10px !important;
+}
+
+.btn-editar {
+    width: 100% !important;
+    background: #667eea !important;
+    color: white !important;
+    border: none !important;
+    padding: 10px !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+}
+
+.btn-editar:hover {
+    background: #5568d3 !important;
+}
+
+@media (max-width: 768px) {
+    .usuarios-list {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .usuarios-list {
+        grid-template-columns: 1fr !important;
+    }
+}
