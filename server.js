@@ -21,7 +21,6 @@ app.post('/api/login', async (req, res) => {
     const { email, senha } = req.body;
 
     try {
-        // Buscar usuário no Supabase
         const { data: usuario, error } = await supabase
             .from('usuarios')
             .select('*')
@@ -33,20 +32,22 @@ app.post('/api/login', async (req, res) => {
             return res.status(401).json({ error: "Usuário não encontrado" });
         }
 
-        // Validar senha
         const senhaValida = await bcrypt.compare(senha, usuario.senha_hash);
         if (!senhaValida) {
             return res.status(401).json({ error: "Senha inválida" });
         }
 
-        // Gerar token JWT
+        const telasPermitidas = Array.isArray(usuario.telas_permitidas)
+            ? usuario.telas_permitidas
+            : [];
+
         const token = jwt.sign({
             id: usuario.id,
             nome: usuario.nome,
             cargo: usuario.cargo,
-            telas: usuario.telas_permitidas,
             filial: usuario.filial,
-            nivel_acesso: usuario.nivel_acesso  // ← ADICIONADO
+            nivel_acesso: usuario.nivel_acesso,
+            telas_permitidas: telasPermitidas
         }, process.env.JWT_SECRET, { expiresIn: '8h' });
 
         res.json({
@@ -55,7 +56,8 @@ app.post('/api/login', async (req, res) => {
                 nome: usuario.nome,
                 cargo: usuario.cargo,
                 filial: usuario.filial,
-                telas: usuario.telas_permitidas
+                nivel_acesso: usuario.nivel_acesso,
+                telas_permitidas: telasPermitidas
             }
         });
     } catch (erro) {
@@ -207,8 +209,19 @@ async function obterTokenPowerBI() {
 }
 
 // ROTA: Obter Token de Embed do Power BI (APENAS DIRETORIA)
-app.post('/api/obter-relatorio', verificarToken, verificarDiretoria, async (req, res) => {
+// ROTA: Obter Token de Embed do Power BI (somente quem tiver a tela liberada)
+app.post('/api/obter-relatorio', verificarToken, async (req, res) => {
     try {
+        const telasPermitidas = Array.isArray(req.user.telas_permitidas)
+            ? req.user.telas_permitidas.map(tela => String(tela).toLowerCase().trim())
+            : [];
+
+        if (!telasPermitidas.includes('dre')) {
+            return res.status(403).json({
+                erro: 'Acesso negado. Esta tela não está liberada para seu usuário.'
+            });
+        }
+
         console.log('Obtendo token Power BI...');
         const accessToken = await obterTokenPowerBI();
         console.log('Token obtido com sucesso');

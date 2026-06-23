@@ -46,21 +46,16 @@ form.addEventListener('submit', async (e) => {
 
         const data = await response.json();
 
-        console.log("Dados recebidos do servidor:", data);
-
         if (response.ok) {
-            // Salvar token
             localStorage.setItem('token_site', data.token);
             localStorage.setItem('usuario', JSON.stringify(data.usuario));
 
-            // Se "Manter conectado" estiver marcado, salvar sessão
             if (manterConectado.checked) {
                 localStorage.setItem('sessao_salva', JSON.stringify({ email }));
             } else {
                 localStorage.removeItem('sessao_salva');
             }
 
-            // Redirecionar para dashboard
             window.location.href = '/dashboard.html';
         } else {
             alert(data.mensagem || 'Erro ao fazer login');
