@@ -1,0 +1,25 @@
+No SUPABASE
+
+Atualizar senha :
+
+UPDATE public.usuarios
+SET senha_hash = crypt('SUA_NOVA_SENHA_AQUI', gen_salt('bf'))
+WHERE id = 9; -- Substitua pelo ID do usuário que deseja alterar
+
+Excluir usuário:
+
+DELETE FROM public.usuarios 
+WHERE id = 9; -- Substitua o 9 pelo ID do usuário que quer apagar
+
+
+Adicionar Usuários: 
+
+INSERT INTO public.usuarios (nome, email, senha_hash, cargo, telas_permitidas, filial)
+VALUES (
+  'Nome do Usuário', 
+  'email@caminho.com.br', 
+  crypt('SENHA_AQUI', gen_salt('bf')), -- Criptografa a senha na hora
+  'Analista', 
+  '["vendas", "pós-venda", "dre"]'::jsonb, 
+  'Araçatuba'
+);

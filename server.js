@@ -45,7 +45,8 @@ app.post('/api/login', async (req, res) => {
             nome: usuario.nome,
             cargo: usuario.cargo,
             telas: usuario.telas_permitidas,
-            filial: usuario.filial
+            filial: usuario.filial,
+            nivel_acesso: usuario.nivel_acesso  // ← ADICIONADO
         }, process.env.JWT_SECRET, { expiresIn: '8h' });
 
         res.json({
@@ -205,8 +206,8 @@ async function obterTokenPowerBI() {
     }
 }
 
-// ROTA: Obter Token de Embed do Power BI
-app.post('/api/obter-relatorio', verificarToken, async (req, res) => {
+// ROTA: Obter Token de Embed do Power BI (APENAS DIRETORIA)
+app.post('/api/obter-relatorio', verificarToken, verificarDiretoria, async (req, res) => {
     try {
         console.log('Obtendo token Power BI...');
         const accessToken = await obterTokenPowerBI();
@@ -274,6 +275,39 @@ function authenticateToken(req, res, next) {
         req.user = user;
         next();
     });
+}
+
+// ==================== MIDDLEWARE DE PERMISSÕES ====================
+
+// Verificar se é diretoria ou admin
+function verificarDiretoria(req, res, next) {
+    if (req.user.nivel_acesso !== 'diretoria' && req.user.nivel_acesso !== 'admin') {
+        return res.status(403).json({ 
+            erro: 'Acesso negado. Apenas diretoria e administradores podem acessar.' 
+        });
+    }
+    next();
+}
+
+// Verificar se é gerente ou superior
+function verificarGerente(req, res, next) {
+    const permitidos = ['gerente', 'diretoria', 'admin'];
+    if (!permitidos.includes(req.user.nivel_acesso)) {
+        return res.status(403).json({ 
+            erro: 'Acesso negado. Apenas gerentes e superiores.' 
+        });
+    }
+    next();
+}
+
+// Verificar se é admin
+function verificarAdmin(req, res, next) {
+    if (req.user.nivel_acesso !== 'admin') {
+        return res.status(403).json({ 
+            erro: 'Acesso negado. Apenas administradores.' 
+        });
+    }
+    next();
 }
 
 // Iniciar servidor

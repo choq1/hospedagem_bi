@@ -5,6 +5,19 @@ if (!tokenSite) {
     window.location.href = '/login.html';
 }
 
+// ==================== DECODIFICAR NIVEL_ACESSO ====================
+let nivelAcesso = 'analista'; // valor padrão
+
+if (tokenSite) {
+    try {
+        const payload = JSON.parse(atob(tokenSite.split('.')[1]));
+        nivelAcesso = payload.nivel_acesso || 'analista';
+        console.log('Nível de acesso:', nivelAcesso);
+    } catch (erro) {
+        console.error('Erro ao decodificar token:', erro);
+    }
+}
+
 // IDs do seu Power BI (Grupo Caminho)
 const groupId = 'e4509305-8a1a-4853-894a-f5ba07b18314';
 const tenantId = 'common';
@@ -18,12 +31,16 @@ const mapeamentoRelatorios = {
     'pos-vendas': { 
         nome: 'PÓS-VENDAS', 
         id: '1d05ac29-60f7-45e3-bbf9-0a7aa8e45a9e' // ← SUBSTITUA AQUI
-    },
-    'dre': { 
-        nome: 'DRE', 
-        id: 'e56f2b5a-4e59-41ca-9eac-4fd131a9c802' // ← Já tem o ID correto
     }
 };
+
+// Adicionar DRE apenas se for diretoria ou admin
+if (nivelAcesso === 'diretoria' || nivelAcesso === 'admin') {
+    mapeamentoRelatorios['dre'] = { 
+        nome: 'DRE', 
+        id: 'e56f2b5a-4e59-41ca-9eac-4fd131a9c802'
+    };
+}
 
 // Preencher dados do usuário
 document.getElementById('txt-nome').innerText = dadosUsuario.nome;

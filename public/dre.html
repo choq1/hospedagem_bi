@@ -26,6 +26,35 @@
     </style>
 </head>
 <body>
+    <script>
+        // ==================== VERIFICAÇÃO DE PERMISSÃO ====================
+        function verificarPermissaoDRE() {
+            const token = localStorage.getItem('token_site');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            try {
+                // Decodificar token para pegar nivel_acesso
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                console.log('Verificando acesso DRE - Nível:', payload.nivel_acesso);
+                
+                // Verificar se é diretoria ou admin
+                if (payload.nivel_acesso !== 'diretoria' && payload.nivel_acesso !== 'admin') {
+                    alert('Acesso negado! Apenas diretoria consegue ver DRE.');
+                    window.location.href = 'dashboard.html';
+                }
+            } catch (erro) {
+                console.error('Erro ao verificar permissão:', erro);
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Executar ao carregar página
+        verificarPermissaoDRE();
+    </script>
+
     <div class="app-container">
         <aside class="sidebar">
             <div class="logo-container">
