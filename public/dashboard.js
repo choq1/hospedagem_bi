@@ -26,11 +26,15 @@ const tenantId = 'common';
 const mapeamentoRelatorios = {
     'vendas': { 
         nome: 'VENDAS', 
-        id: '1d05ac29-60f7-45e3-bbf9-0a7aa8e45a9e' // ← SUBSTITUA AQUI
+        link: 'https://app.powerbi.com/view?r=eyJrIjoiNzliZTZhNzktMWNjNC00NzQ5LWI1M2MtZmFiZTUyM2I0MTFjIiwidCI6ImY0Njg5MWUzLWEyYjctNGZjZS04ODc4LTFlZjU5YWZiNTFlMSJ9'
     },
     'pos-vendas': { 
         nome: 'PÓS-VENDAS', 
-        id: '1d05ac29-60f7-45e3-bbf9-0a7aa8e45a9e' // ← SUBSTITUA AQUI
+        link: 'https://app.powerbi.com/view?r=eyJrIjoiNzliZTZhNzktMWNjNC00NzQ5LWI1M2MtZmFiZTUyM2I0MTFjIiwidCI6ImY0Njg5MWUzLWEyYjctNGZjZS04ODc4LTFlZjU5YWZiNTFlMSJ9'
+    },
+    'dre': { 
+        nome: 'DRE', 
+        link: 'https://app.powerbi.com/view?r=eyJrIjoiMzIwMzViM2EtYTc0Ny00YmM2LWE5OGQtMTkwYWU3MWRhYzEzIiwidCI6ImY0Njg5MWUzLWEyYjctNGZjZS04ODc4LTFlZjU5YWZiNTFlMSJ9'
     }
 };
 
@@ -38,7 +42,7 @@ const mapeamentoRelatorios = {
 if (nivelAcesso === 'diretoria' || nivelAcesso === 'admin') {
     mapeamentoRelatorios['dre'] = { 
         nome: 'DRE', 
-        id: 'e56f2b5a-4e59-41ca-9eac-4fd131a9c802'
+        link: 'https://app.powerbi.com/view?r=eyJrIjoiMzIwMzViM2EtYTc0Ny00YmM2LWE5OGQtMTkwYWU3MWRhYzEzIiwidCI6ImY0Njg5MWUzLWEyYjctNGZjZS04ODc4LTFlZjU5YWZiNTFlMSJ9'
     };
 }
 
@@ -69,7 +73,7 @@ Object.keys(mapeamentoRelatorios).forEach(tela => {
         e.preventDefault();
         document.querySelectorAll('.menu-item').forEach(a => a.classList.remove('active'));
         link.classList.add('active');
-        carregarDashboard(tela, mapeamentoRelatorios[tela].id);
+        carregarDashboard(tela, mapeamentoRelatorios[tela].link);
     };
     containerMenu.appendChild(link);
 });
@@ -81,27 +85,22 @@ if (Object.keys(mapeamentoRelatorios).length > 0) {
     if (primeiroLink) {
         primeiroLink.classList.add('active');
     }
-    carregarDashboard(primeiroTela, mapeamentoRelatorios[primeiroTela].id);
+    carregarDashboard(primeiroTela, mapeamentoRelatorios[primeiroTela].link);
 }
 
-function carregarDashboard(nomeTela, reportId) {
-    // Atualizar o título
+function carregarDashboard(nomeTela, link) {
     const titulo = document.getElementById('titulo-tela');
     if (titulo) {
         titulo.innerText = mapeamentoRelatorios[nomeTela].nome;
     }
 
     const container = document.getElementById('reportContainer');
-
-    // Usar reportEmbed em vez de view
-    const iframeUrl = `https://app.powerbi.com/reportEmbed?reportId=${reportId}&groupId=${groupId}&autoAuth=true`;
-
     container.innerHTML = `
         <iframe 
             title="Power BI Report" 
             width="100%" 
             height="100%" 
-            src="${iframeUrl}" 
+            src="${link}" 
             frameborder="0" 
             allowFullScreen="true">
         </iframe>
