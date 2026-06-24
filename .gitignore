@@ -7,3 +7,4 @@ portaldb
 .DS_Store
 *.log
 seed-usuarios.js
+DEPLOY.md
