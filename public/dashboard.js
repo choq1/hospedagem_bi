@@ -34,18 +34,9 @@ function podeVerTela(chaveTela) {
 }
 
 const relatorios = {
-    vendas: {
-        nome: 'VENDAS',
-        link: 'https://app.powerbi.com/view?r=eyJrIjoiNzliZTZhNzktMWNjNC00NzQ5LWI1M2MtZmFiZTUyM2I0MTFjIiwidCI6ImY0Njg5MWUzLWEyYjctNGZjZS04ODc4LTFlZjU5YWZiNTFlMSJ9'
-    },
-    'pos-vendas': {
-        nome: 'PÓS-VENDAS',
-        link: 'https://app.powerbi.com/view?r=eyJrIjoiNzliZTZhNzktMWNjNC00NzQ5LWI1M2MtZmFiZTUyM2I0MTFjIiwidCI6ImY0Njg5MWUzLWEyYjctNGZjZS04ODc4LTFlZjU5YWZiNTFlMSJ9'
-    },
-    dre: {
-        nome: 'DRE',
-        link: 'https://app.powerbi.com/view?r=eyJrIjoiMzIwMzViM2EtYTc0Ny00YmM2LWE5OGQtMTkwYWU3MWRhYzEzIiwidCI6ImY0Njg5MWUzLWEyYjctNGZjZS04ODc4LTFlZjU5YWZiNTFlMSJ9'
-    }
+    vendas: { nome: 'VENDAS' },
+    'pos-vendas': { nome: 'PÓS-VENDAS' },
+    dre: { nome: 'DRE' }
 };
 
 document.getElementById('txt-nome').innerText = dadosUsuario.nome || '';
@@ -75,11 +66,11 @@ Object.entries(relatorios).forEach(([chaveTela, dadosTela]) => {
     link.innerText = dadosTela.nome;
     link.href = '#';
     link.onclick = (e) => {
-        e.preventDefault();
-        document.querySelectorAll('.menu-item').forEach(a => a.classList.remove('active'));
-        link.classList.add('active');
-        carregarDashboard(dadosTela.nome, dadosTela.link);
-    };
+    e.preventDefault();
+    document.querySelectorAll('.menu-item').forEach(a => a.classList.remove('active'));
+    link.classList.add('active');
+    carregarDashboard(dadosTela.nome, chaveTela); // passa a chave, não o link
+};
     containerMenu.appendChild(link);
 });
 
@@ -88,29 +79,46 @@ if (primeiroLink) {
     primeiroLink.classList.add('active');
     const primeiraChavePermitida = Object.keys(relatorios).find(chave => podeVerTela(chave));
     if (primeiraChavePermitida) {
-        carregarDashboard(relatorios[primeiraChavePermitida].nome, relatorios[primeiraChavePermitida].link);
+        carregarDashboard(relatorios[primeiraChavePermitida].nome, primeiraChavePermitida);
     }
 } else {
     document.getElementById('reportContainer').innerHTML = '<div style="padding: 24px; color: #666;">Nenhuma tela permitida para este usuário.</div>';
 }
 
-function carregarDashboard(nomeTela, link) {
+async function carregarDashboard(nomeTela, chaveTela) {
+    const token = localStorage.getItem('token_site');
+
     const titulo = document.getElementById('titulo-tela');
-    if (titulo) {
-        titulo.innerText = nomeTela;
-    }
+    if (titulo) titulo.innerText = nomeTela;
 
     const container = document.getElementById('reportContainer');
-    container.innerHTML = `
-        <iframe
-            title="Power BI Report"
-            width="100%"
-            height="100%"
-            src="${link}"
-            frameborder="0"
-            allowFullScreen="true">
-        </iframe>
-    `;
+    container.innerHTML = '<div style="padding: 24px; color: #666;">Carregando...</div>';
+
+    try {
+        const resposta = await fetch(`/api/link-relatorio/${chaveTela}`, {
+            headers: { 'Authorization': 'Bearer ' + token }
+        });
+
+        if (!resposta.ok) {
+            container.innerHTML = '<div style="padding: 24px; color: red;">Acesso negado ou erro ao carregar.</div>';
+            return;
+        }
+
+        const { link } = await resposta.json();
+
+        container.innerHTML = `
+            <iframe
+                title="Power BI Report"
+                width="100%"
+                height="100%"
+                src="${link}"
+                frameborder="0"
+                allowFullScreen="true">
+            </iframe>
+        `;
+    } catch (erro) {
+        container.innerHTML = '<div style="padding: 24px; color: red;">Erro ao carregar relatório.</div>';
+    }
 }
 
 document.getElementById('btn-logout').addEventListener('click', () => {

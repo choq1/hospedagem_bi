@@ -172,6 +172,43 @@ app.post('/api/desativar-usuario', verificarToken, async (req, res) => {
     }
 });
 
+app.get('/api/link-relatorio/:tela', verificarToken, (req, res) => {
+    const { tela } = req.params;
+
+    const relatorios = {
+        'vendas': process.env.LINK_VENDAS,
+        'pos-vendas': process.env.LINK_POS_VENDAS,
+        'dre': process.env.LINK_DRE
+    };
+
+    const telasPermitidas = Array.isArray(req.user.telas_permitidas)
+        ? req.user.telas_permitidas.map(t => t.toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g, ''))
+        : [];
+
+    const telaNormalizada = tela.toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+    const aliasesPosVendas = ['pos-vendas', 'pos-venda'];
+    const telaValida = telasPermitidas.some(tp => {
+        const tpNorm = tp.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        if (telaNormalizada === tpNorm) return true;
+        if (aliasesPosVendas.includes(telaNormalizada) && aliasesPosVendas.includes(tpNorm)) return true;
+        return false;
+    });
+
+    if (!telaValida) {
+        return res.status(403).json({ erro: 'Acesso negado a esta tela.' });
+    }
+
+    const link = relatorios[telaNormalizada] || relatorios['pos-vendas'];
+
+    if (!link) {
+        return res.status(404).json({ erro: 'Relatório não encontrado.' });
+    }
+
+    res.json({ link });
+});
+
+
 // ======================== POWER BI ========================
 
 // Configuração do Power BI
