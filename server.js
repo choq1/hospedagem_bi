@@ -21,13 +21,19 @@ app.post('/api/login', async (req, res) => {
     const { email, senha } = req.body;
 
     try {
+        //const { data: usuario, error } = await supabase
+            //.from('usuarios')
+            //.select('*')
+            //.eq('email', email)
+            //.eq('ativo', 1)
+            //.single();
         const { data: usuario, error } = await supabase
-            .from('usuarios')
-            .select('*')
-            .eq('email', email)
-            .eq('ativo', 1)
-            .single();
-
+        .from('usuarios')
+        .select('*')
+        .or(`email.eq.${email},login.eq.${email}`)
+        .eq('ativo', 1)
+        .single();
+        
         if (error || !usuario) {
             return res.status(401).json({ error: "Usuário não encontrado" });
         }

@@ -3,7 +3,6 @@ const emailInput = document.getElementById('email');
 const senhaInput = document.getElementById('senha');
 const manterConectado = document.getElementById('manter-conectado');
 
-// Verificar se há sessão salva
 window.addEventListener('load', () => {
     const sessaoSalva = localStorage.getItem('sessao_salva');
     if (sessaoSalva) {
@@ -12,8 +11,6 @@ window.addEventListener('load', () => {
         manterConectado.checked = true;
     }
 });
-
-
 
 function togglePassword() {
     const senhaInput = document.getElementById('senha');
@@ -28,7 +25,6 @@ function togglePassword() {
     }
 }
 
-
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -38,9 +34,7 @@ form.addEventListener('submit', async (e) => {
     try {
         const response = await fetch('/api/login', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, senha })
         });
 
@@ -64,7 +58,7 @@ form.addEventListener('submit', async (e) => {
         console.error(error);
         alert('Erro na conexão');
     }
-
+});
 
     // Listar todos os usuários
 app.get('/api/listar-usuarios', verificarToken, (req, res) => {
@@ -92,4 +86,3 @@ app.post('/api/atualizar-usuario', verificarToken, (req, res) => {
     );
 });
     
-});
