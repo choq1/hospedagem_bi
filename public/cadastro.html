@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitar Acesso - Portal BI</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .select-field {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: #fff;
+            color: #333;
+            appearance: none;
+            cursor: pointer;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .select-field:focus {
+            border-color: #c0392b;
+        }
+
+        .select-wrapper {
+            position: relative;
+        }
+
+        .select-wrapper::after {
+            content: '▾';
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: #888;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body class="login-page">
+    <div class="login-wrapper">
+        <div class="login-header-top">
+            <img src="logocmntrns.png" alt="Logo" class="login-logo">
+            <h1>Portal BI</h1>
+            <p>CAMINHO VEÍCULOS</p>
+        </div>
+
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-content">
+                    <h2>Solicitar Acesso</h2>
+                    <p class="login-subtitle">Preencha os dados abaixo para solicitar seu acesso ao portal.</p>
+
+                    <form id="form-solicitacao">
+                        <div class="form-group">
+                            <label>E-mail corporativo</label>
+                            <input type="email" id="email" placeholder="seu@caminho.com.br" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Senha desejada</label>
+                            <input type="password" id="senha" placeholder="••••••••" required>
+                            <span class="toggle-password" onclick="togglePassword()">
+                                <img src="not-visible.png" alt="Mostrar senha">
+                            </span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Departamento</label>
+                            <div class="select-wrapper">
+                                <select id="departamento" class="select-field" required>
+                                    <option value="" disabled selected>Selecione o departamento</option>
+                                    <option value="Vendas">Vendas</option>
+                                    <option value="Pós-Vendas">Pós-Vendas</option>
+                                    <option value="Financeiro">Financeiro</option>
+                                    <option value="Administrativo">Administrativo</option>
+                                    <option value="TI">TI</option>
+                                    <option value="Diretoria">Diretoria</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Função</label>
+                            <input type="text" id="funcao" placeholder="Ex: Consultor de Vendas" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Loja</label>
+                            <div class="select-wrapper">
+                                <select id="loja" class="select-field" required>
+                                    <option value="" disabled selected>Selecione a loja</option>
+                                    <option value="Matriz">Matriz</option>
+                                    <option value="DAF Caminho Araraquara">DAF Caminho Araraquara</option>
+                                    <option value="DAF Caminho Araçatuba">DAF Caminho Araçatuba</option>
+                                    <option value="DAF Caminho S. J. Rio Preto">DAF Caminho S. J. Rio Preto</option>
+                                    <option value="DAF Caminho Ribeirão Preto">DAF Caminho Ribeirão Preto</option>
+                                    <option value="FIAT Caminho Araçatuba">FIAT Caminho Araçatuba</option>
+                                    <option value="FIAT Caminho Votuporanga">FIAT Caminho Votuporanga</option>
+                                    <option value="FORD Caminho Araçatuba">FORD Caminho Araçatuba</option>
+                                    <option value="FORD Caminho Americana">FORD Caminho Americana</option>
+                                    <option value="FORD Caminho Bauru">FORD Caminho Bauru</option>
+                                    <option value="FORD Caminho Campinas">FORD Caminho Campinas</option>
+                                    <option value="FORD Caminho Limeira">FORD Caminho Limeira</option>
+                                    <option value="FORD Caminho Marília">FORD Caminho Marília</option>
+                                    <option value="FORD Caminho Piracicaba">FORD Caminho Piracicaba</option>
+                                    <option value="FORD Caminho Pres. Prudente">FORD Caminho Pres. Prudente</option>
+                                    <option value="GWM Caminho Araçatuba">GWM Caminho Araçatuba</option>
+                                    <option value="GWM Caminho Bauru">GWM Caminho Bauru</option>
+                                    <option value="GWM Caminho Marília">GWM Caminho Marília</option>
+                                    <option value="GWM Caminho Pres. Prudente">GWM Caminho Pres. Prudente</option>
+                                    <option value="GWM Caminho S.J. Rio Preto">GWM Caminho S.J. Rio Preto</option>
+                                    <option value="HMB Caminho Catanduva">HMB Caminho Catanduva</option>
+                                    <option value="HMB Caminho Limeira">HMB Caminho Limeira</option>
+                                    <option value="HMB Caminho Piracicaba">HMB Caminho Piracicaba</option>
+                                    <option value="OMODA&JAECOO Caminho Piracicaba">OMODA&JAECOO Caminho Piracicaba</option>
+                                    <option value="RAM Caminho Araçatuba">RAM Caminho Araçatuba</option>
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-login">Enviar Solicitação</button>
+                    </form>
+
+                    <p class="login-footer">Sua solicitação será analisada pelo administrador do sistema.</p>
+                    <p class="login-footer"><a href="login.html">Já tem acesso? Faça login</a></p>
+                    <p class="dev-info">Desenvolvido por Gabriel Herculano - 2026</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const senhaInput = document.getElementById('senha');
+            const toggleIcon = document.querySelector('.toggle-password');
+
+            if (senhaInput.type === 'password') {
+                senhaInput.type = 'text';
+                toggleIcon.innerHTML = '<img src="not-visible.png" alt="Esconder senha">';
+            } else {
+                senhaInput.type = 'password';
+                toggleIcon.innerHTML = '<img src="visual.png" alt="Mostrar senha">';
+            }
+        }
+
+        document.getElementById('form-solicitacao').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const email       = document.getElementById('email').value;
+            const senha       = document.getElementById('senha').value;
+            const departamento = document.getElementById('departamento').value;
+            const funcao      = document.getElementById('funcao').value;
+            const loja        = document.getElementById('loja').value;
+
+            const mensagem = `Olá! Gostaria de solicitar acesso ao Portal BI.\n\n` +
+                            `E-mail: ${email}\n` +
+                            `Senha desejada: ${senha}\n` +
+                            `Departamento: ${departamento}\n` +
+                            `Funcao: ${funcao}\n` +
+                            `Loja: ${loja}`;
+
+            const numero = '5517997839368';
+            const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
+
+            window.open(url, '_blank');
+        });
+    </script>
+</body>
+</html>

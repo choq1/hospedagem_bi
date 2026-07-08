@@ -429,18 +429,28 @@ iframe {
 }
 
 .login-footer {
-    font-size: 12px;
+    font-size: 13px;
     color: #64b5f6;
     text-align: center;
+    white-space: nowrap;
     margin-top: 20px;
     margin-bottom: 0;
 }
 
+.login-footer a {
+    color: #028dff;
+    text-decoration: none;
+}
+
+.login-footer a:hover {
+    text-decoration: underline;
+}
+
 .dev-info {
-    font-size: 11px;
-    color: #a0aec0;
+    font-size: 12px; /* aumenta esse valor, ex: 13px ou 14px */
+    margin-top: 32px; /* desce o texto, aumenta esse valor */
+    color: #888;
     text-align: center;
-    margin-top: 10px;
 }
 
 .bi-container {
